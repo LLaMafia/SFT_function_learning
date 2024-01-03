@@ -27,10 +27,12 @@ the format is as follows:
 """
 import random
 import json
+from pathlib import Path
 from tqdm import trange
 from typing import List, Dict
 
 import datasets
+import google.generativeai as genai
 from openai import OpenAI
 from preference_datasets import extract_anthropic_prompt
 
@@ -49,6 +51,22 @@ def get_original_helpful():
     return dataset
 
 
+def get_api_base_url() -> str:
+    """Get the base URL of the API.
+
+    Returns:
+        base_url: the base URL of the API.
+    """
+    base_url = None
+    file_path = Path('api_base_url.txt')
+    if file_path.exists():
+        with open(file_path, 'r') as f:
+            base_url = f.read().strip()
+    else:
+        base_url = 'https://api.openai.com'
+    return base_url
+
+
 def get_api_key() -> str:
     """Get the list of API keys.
 
@@ -57,7 +75,7 @@ def get_api_key() -> str:
     """
     global KEY_IDX, KEY_LIST
     if KEY_LIST is None:
-        with open('openai_keys.txt', 'r') as f:
+        with open('api_keys.txt', 'r') as f:
             KEY_LIST = [line.strip() for line in f.readlines()]
     api_key = KEY_LIST[KEY_IDX % len(KEY_LIST)]
     KEY_IDX += 1
@@ -73,7 +91,10 @@ def get_gpt_completion(prompt: str) -> str:
     Returns:
         completion: the GPT-3 completion of the prompt.
     """
-    client = OpenAI(api_key=get_api_key())
+    client = OpenAI(
+        api_key=get_api_key(),
+        base_url=get_api_base_url(),
+    )
     completion = client.chat.completions.create(
         model=MODEL,
         messages=[
@@ -83,6 +104,21 @@ def get_gpt_completion(prompt: str) -> str:
         n=1,
     )
     return completion.choices[0].message.content
+
+
+def get_gemini_completion(prompt: str) -> str:
+    """Get the Gemini completion of the prompt.
+
+    Args:
+        prompt: the prompt.
+
+    Returns:
+        completion: the Gemini completion of the prompt.
+    """
+    genai.configure(api_key=get_api_key())
+    model = genai.GenerativeModel('gemini-pro')
+    response = model.generate_content(prompt)
+    return response.text
 
 
 def get_paraphrase(rejected_response: str) -> str:
@@ -170,7 +206,7 @@ def main() -> None:
         f.write(json.dumps(converted_test))
     print('done')
     print('converting the training set...')
-    converted_train = convert_helpful_base(helpful_dataset['train'][:200000])
+    converted_train = convert_helpful_base(helpful_dataset['train'])
     with open('data/helpful-base/train.json', 'w') as f:
         f.write(json.dumps(converted_train))
     print('done')
