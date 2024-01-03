@@ -25,6 +25,7 @@ the format is as follows:
         ...
     ]
 """
+import argparse
 import hashlib
 import json
 import random
@@ -50,11 +51,25 @@ PLATFORM2BASEURL = {
 }
 
 
-def get_original_helpful():
+def get_original_helpful(split: str = None):
+    """Get the original HH dataset.
+    
+    Args:
+        split: the split of the dataset to be loaded.
+    
+    Returns:
+        dataset: the original HH dataset.
+    """
     print(f'Loading HH dataset (helpful-base split) from Huggingface...')
-    dataset = datasets.load_dataset(
-        'Anthropic/hh-rlhf', data_dir='helpful-base', cache_dir='./data'
-    )
+    if split is None:
+        dataset = datasets.load_dataset(
+            'Anthropic/hh-rlhf', data_dir='helpful-base', cache_dir='./data'
+        )
+    else:
+        dataset = datasets.load_dataset(
+            'Anthropic/hh-rlhf', data_dir='helpful-base', cache_dir='./data',
+            split=split
+        )
     print('done')
     return dataset
 
@@ -280,19 +295,44 @@ def convert_helpful_base(dataset: List[Dict[str, str]]) -> List[Dict[str, str]]:
     return converted_dataset
 
 
-def main() -> None:
-    helpful_dataset = get_original_helpful()
-    print('Converting the test set...')
-    converted_test = convert_helpful_base(helpful_dataset['test'])
-    with open('data/helpful-base/test.json', 'w') as f:
-        f.write(json.dumps(converted_test))
-    print('done')
-    print('converting the training set...')
-    converted_train = convert_helpful_base(helpful_dataset['train'])
-    with open('data/helpful-base/train.json', 'w') as f:
-        f.write(json.dumps(converted_train))
-    print('done')
+def main(
+    split:str = 'test',
+    start_frac : int = 0,
+    end_frac: int = 10
+) -> None:
+    if split == 'test':
+        data_split = 'test'
+        helpful_dataset = get_original_helpful(data_split)
+        print('Converting the test set...')
+        converted_test = convert_helpful_base(helpful_dataset)
+        with open('data/helpful-base/test.json', 'w') as f:
+            f.write(json.dumps(converted_test))
+        print('done')
+    else:
+        data_split = f'train[{start_frac}%:{end_frac}%]'
+        helpful_dataset = get_original_helpful(data_split)
+        print(
+            f'Converting the training set from {start_frac}% to {end_frac}%...'
+        )
+        converted_train = convert_helpful_base(helpful_dataset)
+        with open(
+            f'data/helpful-base/train_{start_frac}%_{end_frac}%.json', 'w'
+        ) as f:
+            f.write(json.dumps(converted_train))
+        print('done')
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description="Process a range of indices.")
+    parser.add_argument('--start_frac', type=int, default=0,
+        help='Starting index'
+    )
+    parser.add_argument('--end_frac', type=int, default=10,
+        help='Ending index'
+    )
+    parser.add_argument('--split', type=str, default='test',
+        help='The split of the dataset to be converted'
+    )
+    args = parser.parse_args()
+
+    main(args.split, args.start_frac, args.end_frac)
