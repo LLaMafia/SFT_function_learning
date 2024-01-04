@@ -201,7 +201,7 @@ def get_baichuan_completion(prompt: str) -> str:
     return response['choices'][0]['message']['content']
 
 
-def get_completion(prompt: str, platform: str = 'baichuan') -> str:
+def get_completion(prompt: str, platform: str = 'gemini') -> str:
     """Get the completion of the prompt.
 
     Args:
