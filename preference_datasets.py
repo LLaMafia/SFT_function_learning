@@ -351,21 +351,3 @@ def strings_match_up_to_spaces(str_a: str, str_b: str) -> bool:
                     str_b = str_b[:idx] + str_b[idx + 1:]
 
     return True
-
-
-if __name__ == '__main__':
-    tokenizer = transformers.AutoTokenizer.from_pretrained(
-        'gpt2', 
-        cache_dir='./tmp',
-    )
-    tokenizer.pad_token_id = tokenizer.eos_token_id
-    test_iter = get_batch_iterator(
-        ['hh'],
-        tokenizer,
-        split='test',
-        batch_size=2,
-        shuffle=False,
-        n_examples=6,
-    )
-    test_batchs = list(test_iter)
-    print(test_batchs[0])
