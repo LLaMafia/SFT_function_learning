@@ -335,7 +335,7 @@ def get_batch_iterator(
         if done:
             break
 
-        epoch_idx += 1
+    epoch_idx += 1
 
 
 def strings_match_up_to_spaces(str_a: str, str_b: str) -> bool:
