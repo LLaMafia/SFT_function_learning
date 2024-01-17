@@ -195,20 +195,36 @@ class BasicTrainer(object):
         metrics = {}
         train_test = 'train' if train else 'eval'
 
-        if loss_config.name == 'sft':
-            policy_chosen_logits = self.policy(
-                input_ids=batch['chosen_input_ids'],
-                attention_mask=batch['chosen_attention_mask']
-            ).logits.to(torch.float32)
-            policy_chosen_logps = _get_batch_logps(
-                policy_chosen_logits, batch['chosen_labels'],
-                average_log_prob=False
-            )
-            losses = -policy_chosen_logps
-        else:
+        if loss_config.name != 'sft':
             raise NotImplementedError(
                 f'loss {loss_config.name} not implemented'
             )
+
+        policy_chosen_logits = self.policy(
+            input_ids=batch['chosen_input_ids'],
+            attention_mask=batch['chosen_attention_mask']
+        ).logits.to(torch.float32)
+        policy_chosen_logps = _get_batch_logps(
+            policy_chosen_logits, batch['chosen_labels'],
+            average_log_prob=False
+        )
+        losses = -policy_chosen_logps
+        
+        with torch.no_grad():
+            for k in [
+                'rejected', 'random', 'paraphrase', 'variant', 'nonresponse'
+            ]:
+                policy_predict_logtis = self.policy(
+                    input_ids=batch[f'{k}_input_ids'],
+                    attention_mask=batch[f'{k}_attention_mask']
+                ).logits.detach().to(torch.float32)
+                policy_predict_logps = _get_batch_logps(
+                    policy_predict_logtis, batch[f'{k}_labels'],
+                    average_log_prob=False
+                )
+                del policy_predict_logtis
+                metrics[f'logps_{train_test}/{k}'] = \
+                    policy_predict_logps.cpu().numpy().tolist()
 
         policy_chosen_logps = all_gather_if_needed(
             policy_chosen_logps.detach(), self.rank, self.world_size
