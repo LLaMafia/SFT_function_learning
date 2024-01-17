@@ -86,7 +86,7 @@ warmup_steps: 150
 activation_checkpointing: false
 
 # evaluate and save model every eval_every steps
-eval_every: 20_000
+eval_every: 2000
 
 # prevent wandb from logging more than once per minimum_log_interval_secs
 minimum_log_interval_secs: 1.0
