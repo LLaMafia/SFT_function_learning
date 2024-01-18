@@ -50,3 +50,7 @@ $y_j^+$ should be totally out of the distribution specified by $f_{tgt}(x_i)$.
 Now, let's see how the likelihood of the above kinds of responses change over SFT.
 N.B. the learning target is **ONLY** the "proper responses" $y_i^+$!
 
+![Log-probs of various responses on EVALUATION set.](https://github.com/Shawn-Guo-CN/SFT_function_learning/blob/main/results/logp_eval.png)
+
+
+## Conclusion
