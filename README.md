@@ -1,6 +1,7 @@
 # SFT: what is it really learning?
 
 Author: Shangmin Guo
+
 Contact: [s.guo@ed.ac.uk](mailto:s.guo@ed.ac.uk)
 
 This repo is forked from the [DPO repo](https://github.com/eric-mitchell/direct-preference-optimization).
