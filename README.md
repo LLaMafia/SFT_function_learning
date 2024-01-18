@@ -56,9 +56,14 @@ N.B. the learning target is **ONLY** the "proper responses" $y_i^+$!
 
 ![Log-probs of various responses on EVALUATION set.](https://github.com/Shawn-Guo-CN/SFT_function_learning/blob/main/results/logp_eval.png)
 
+Now, I'm going to list some interesting observations as follows.
 
-As can be seen from the above figure, the log-probabilities of various kinds of responses change in different ways over SFT.
-Briefly speaking, all of them increase over SFT, except for the "non-response" $\bar{y}_i$.
+ - **All log-probabilities increased over SFT except for the "non-response" $\bar{y}_i$**.
+
+ - **Log-probability of different kinds of responses increase in different degrees**.
+    - The increamental of log-probability from high to low is: $y_i^+$, $y_i^-$, $y_j^+$, $\tilde{y}_i^-$, $y_i'$, $\bar{y}_i$.
+
+ - **Log-probability of "rejected responses" $y_i^-$ is always higher than that of the "proper responses" $y_i^+$**.
 
 
 ## Conclusion
