@@ -1,4 +1,4 @@
-# SFT: what is it really learning?
+# SFT: what is the model really learning?
 
 Author: Shangmin Guo
 
