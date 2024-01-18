@@ -1,5 +1,8 @@
 # SFT: what is it really learning?
 
+Author: Shangmin Guo
+Contact: [s.guo@ed.ac.uk](mailto:s.guo@ed.ac.uk)
+
 This repo is forked from the [DPO repo](https://github.com/eric-mitchell/direct-preference-optimization).
 However, this repo is **NOT** to explore alignment of LLMs, but rather to explore what the LLMs are learning during SFT.
 
