@@ -53,4 +53,22 @@ N.B. the learning target is **ONLY** the "proper responses" $y_i^+$!
 ![Log-probs of various responses on EVALUATION set.](https://github.com/Shawn-Guo-CN/SFT_function_learning/blob/main/results/logp_eval.png)
 
 
+As can be seen from the above figure, the log-probabilities of various kinds of responses change in different ways over SFT.
+Briefly speaking, all of them increase over SFT, except for the "non-response" $\bar{y}_i$.
+
+
 ## Conclusion
+
+The results above suggest that SFT is actually learning to generate "responses" in general, not even only the "responses" to $x_i$, since $y_j^+$ also increases.
+Not surprisingly, log-likelihood of different kinds of responses change in different degrees, which suggests that the LLMs is actually fitting the distribution which generates the data.
+
+More interestingly, the log-probability of "rejected responses" $y_i^-$ is alway higher than that of the "proper responses" $y_i^+$, which suggests that the LLMs is actually learning to generate the "rejected responses" instead of the "proper responses".
+(PS: the second half part after the comma of this conclusion is done by `GitHub-Copilot`)
+
+Overall, the results signifies that SFT is not enough for alignment, and the alignment step is still necessary.
+
+## TODO
+
+- [ ] Discuss the degrees of the changes of log-probabilities of various responses.
+- [ ] Figure out how to define the "simplicity" of a function for a given model.
+- [ ] Figure out how to construct a dataset $\mathbb{D}$ that can represent only $f_{tgt}$, i.e. $\mathcal{F}=\{f_{tgt}\}$.
