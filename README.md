@@ -59,7 +59,7 @@ N.B. the learning target is **ONLY** the "proper responses" $y_i^+$!
 
 Now, I'm going to list some interesting observations as follows.
 
- - **All log-probabilities $\Delta\log \pi(\cdot|x_i)$ increased over SFT except for the "non-response" $\bar{y}_i$**.
+ - **All log-probabilities $\log \pi(\cdot|x_i)$ increased over SFT except for the "non-response" $\bar{y}_i$**.
 
  - **Log-probability of different kinds of responses increase in different degrees**.
     - The increamental of log-probability from high to low is: $\Delta\log \pi(y_i^+|x_i)$, $\Delta\log \pi(y_i^-|x_i)$, $\Delta\log \pi(y_j^+|x_i)$, $\Delta\log \pi(\tilde{y}_i^-|x_i)$, $\Delta\log \pi(y_i'|x_i)$, $\Delta\log \pi(\bar{y}_i|x_i)$.
