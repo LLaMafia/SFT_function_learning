@@ -52,18 +52,19 @@ $y_j^+$ should be totally out of the distribution specified by $f_{tgt}(x_i)$.
 ## Results
 
 Now, let's see how the likelihood of the above kinds of responses change over SFT.
+The model $\pi$ is [Pythia-2.8b](https://huggingface.co/EleutherAI/pythia-2.8b).
 N.B. the learning target is **ONLY** the "proper responses" $y_i^+$!
 
 ![Log-probs of various responses on EVALUATION set.](https://github.com/Shawn-Guo-CN/SFT_function_learning/blob/main/results/logp_eval.png)
 
 Now, I'm going to list some interesting observations as follows.
 
- - **All log-probabilities increased over SFT except for the "non-response" $\bar{y}_i$**.
+ - **All log-probabilities $\Delta\log \pi(\cdot|x_i)$ increased over SFT except for the "non-response" $\bar{y}_i$**.
 
  - **Log-probability of different kinds of responses increase in different degrees**.
-    - The increamental of log-probability from high to low is: $y_i^+$, $y_i^-$, $y_j^+$, $\tilde{y}_i^-$, $y_i'$, $\bar{y}_i$.
+    - The increamental of log-probability from high to low is: $\Delta\log \pi(y_i^+|x_i)$, $\Delta\log \pi(y_i^-|x_i)$, $\Delta\log \pi(y_j^+|x_i)$, $\Delta\log \pi(\tilde{y}_i^-|x_i)$, $\Delta\log \pi(y_i'|x_i)$, $\Delta\log \pi(\bar{y}_i|x_i)$.
 
- - **Log-probability of "rejected responses" $y_i^-$ is always higher than that of the "proper responses" $y_i^+$**.
+ - **Log-probability of "rejected responses" $\log \pi(y_i^-|x_i)$ is always higher than that of the "proper responses" $\log \pi(y_i^+|x_i)$**.
 
 
 ## Conclusion
