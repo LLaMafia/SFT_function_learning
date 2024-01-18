@@ -26,7 +26,7 @@ For example, in alignment, the dataset $\mathbb{D}$ can represent the function f
 So far, the unclear and interesting part is that how can we tell the exact function that the model is learning through SFT on $\mathbb{D}$.
 If we say it's the "simplest function", then how can we define "simplicity"?
 Furthermore, given a target function $f_{tgt}$, how can we construct a dataset $\mathbb{D}$ that can represent only $f_{tgt}$ (i.e. $\mathcal{F}=\{f_{tgt}\}$)?
-For example, if $f_{tgt}$ is "proper response" and we can construct such a dataset $\mathbb{D}$, then SFT might indeed become sufficient for aligning LLMs, thus the alignment step is not necessary anymore.
+For example, if $f_{tgt}$ is "proper response" and we can construct such a dataset $\mathbb{D}$, then SFT might indeed become sufficient for aligning LLMs, thus RLHF is not necessary anymore.
 
 ## Synthetic Data
 
