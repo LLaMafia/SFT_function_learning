@@ -33,8 +33,8 @@ For example, if $f_{tgt}$ is "proper response" and we can construct such a datas
 To answer the question above, beyond the "proper/chosen responses" to the prompts in the `HH/helpful-base` dataset from Anthropic, I also need to synthesise more kinds of responses.
 Following the function hypothesis above, I hereby consider from the perspective that $(x,y)$ in the dataset $\mathbb{D}$ represent a family of functions $\mathcal{F}: \mathcal{X} \mapsto \mathcal{Y}$, where $\mathcal{X}$ is the set of all possible prompts and $\mathcal{Y}$ is the set of all possible responses.
 
-For a given prompt $x_i$, the positive is $y_i^+$ which represents a "proper response" to $x_i$, and the tuple $(x_i,y_i^+)$ says that $x_i$ should be mapped to $y_i^+$, i.e. $x_i \mapsto y_i^+$.
-I then generate the following kinds of responses the same prompt $x_i$:
+For a given prompt $x_i$, the positive (SFT target) is $y_i^+$ which represents a "proper response" to $x_i$, and the tuple $(x_i,y_i^+)$ says that $x_i$ should be mapped to $y_i^+$, i.e. $x_i \mapsto y_i^+$.
+I then generate the following kinds of responses to the same prompt $x_i$:
 
 1. **Rejected response $y_i^-$**: a response that is sampled from $f_{tgt}(x_i)$ as well, but is less preferred by the user, compared to $y_i^+$.
 
