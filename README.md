@@ -14,7 +14,7 @@ Yet, in my own previous experiment, I observed that the likelihood of the "negat
 So, this leads to the question of this repo: **what is the LLM really learning during SFT?**
 
 More specifically, I wonder if the LLM is learning to generate the "proper responses" or just "responses".
-To answer this question, I construct the synthetic data followed the method introduced in the next section, and then train the LLMs on only the "proper responses" with SFT.
+To answer this question, I construct the synthetic data following the method introduced in the next section, and then train the LLMs on only the "proper responses" with SFT.
 The likelihood of various kinds of responses over SFT is then recoded and showed at the end of this README.
 
 More broadly, the key hypothesis can be generalised as: 
